@@ -1,0 +1,34 @@
+# Ignorar archivos y directorios generados por IDEs
+.idea/
+.vscode/
+
+# Ignorar archivos de compilación
+target/
+dist/
+out-tsc/
+node_modules/
+*.iml
+
+# Ignorar archivos de configuración locales
+application.yml
+application.properties
+application-dev.properties
+application-prod.properties
+
+# Ignorar archivos de registro y datos temporales
+*.log
+*.log.*
+logs/
+log/
+tmp/
+temp/
+
+# Ignorar archivos generados por Spring Boot DevTools
+restart.log
+spring-boot-devtools.log
+
+# Ignorar archivos de Angular CLI
+angular-cli.json
+e2e/
+node_modules/
+dist/
