@@ -8,6 +8,7 @@ In this README, we'll explore the important concepts and the structure of spring
 - **GitKraken:** A Git GUI client for easy version control.
 - 
 ### Database:
+- `MongoAtlas 4.4.9:' A cloud database service`.
 - `MongoDB Compass 1.40.4:`.
 
 ### Backend:

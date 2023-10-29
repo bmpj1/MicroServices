@@ -1,6 +1,5 @@
-package com.micro.productservice.model;
+package com.micro.productservice.domain.model;
 
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -19,12 +18,19 @@ import java.math.BigDecimal;
 @Builder
 @Data
 public class Product {
+
   @Id
   private Long id;
+
   @NotEmpty(message = "Product name is required")
   private String name;
+
   @Size(max = 250, message = "Product description must be at most 250 characters")
   private String description;
+
   @Min(value = 1, message = "Product price must be greater than 1")
   private BigDecimal price;
+
+  private String brand;
+
 }

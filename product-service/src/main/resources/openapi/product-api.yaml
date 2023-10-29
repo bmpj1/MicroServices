@@ -1,0 +1,128 @@
+openapi: "3.0.0"
+info:
+  title: "Product API"
+  version: "1.0.0"
+paths:
+  /api/products:
+    get:
+      operationId: "getAllProducts"
+      summary: "Obtener todos los productos"
+      responses:
+        200:
+          description: "Operación exitosa"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListProducts"
+        400:
+          description: "Solicitud inválida"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        404:
+          description: "Productos no encontrados"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: "Error inesperado"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+                
+  /api/product/{id}:
+    get:
+      operationId: "getProductById"
+      summary: "Obtener producto por ID"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: "Operación exitosa"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResponse"
+        404:
+          description: "Producto no encontrado"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: "Error inesperado"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+                
+  /api/product/:
+    post:
+      operationId: "createProduct"
+      summary: "Crear un nuevo producto"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductResponse'
+      responses:
+        201:
+          description: "Producto creado"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResponse"
+        400:
+          description: "Solicitud inválida"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: "Error inesperado"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    ListProducts:
+      type: array
+      items:
+        $ref: '#/components/schemas/ProductResponse'
+      
+    ProductResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: integer
+        brand:
+          type: string
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: integer
+        timestamp:
+          type: string
+          format: date-time
+        correlationId:
+          type: string
