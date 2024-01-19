@@ -1,9 +1,15 @@
 package com.micro.productservice.service;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.micro.productservice.dto.ProductResponseDto;
+import com.micro.productservice.model.ProductModel;
+import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class ProductService {
+public interface ProductService {
+  ProductModel createProduct(ProductModel productModel);
+  void deleteProductById(Long id);
+  List<ProductModel> getAllProducts(Integer perPage, Integer page);
+  ProductModel getProductById(Long id);
+  ProductModel updateProduct(Long id, ProductModel productModel);
+
+  ProductResponseDto getProduct(Long id);
 }

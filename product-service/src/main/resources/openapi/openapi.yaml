@@ -1,0 +1,335 @@
+openapi: 3.0.0
+servers:
+  - url: 'http://localhost:3000/v1'
+info:
+  description: Simple API con OpenAPI para MTIS
+  version: "1.0.0"
+  title: Simple API
+  termsOfService: 'http://swagger.io/terms/'
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+####################################
+##### ESPECIFICACION ENTIDADES #####
+####################################
+tags:
+  - name: tarjetas
+    description: Esqueleto API Tarjetas
+
+#################
+##### PATHS #####
+#################
+paths:
+  ####################
+  ##### TARJETAS #####
+  ####################
+  '/tarjetas/{id}':
+    post:
+      tags:
+        - tarjetas
+      summary: Valida las credenciales de la tarjeta
+      operationId: validarCredenciales
+      description: |
+        Pasando el id de una tarjeta y algunos datos extra en el body se comprueba la validez de la tarjeta.
+      parameters:
+        - name: id
+          in: path
+          description: id de la tarjeta
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Tarjeta:
+                  $ref: '#/components/schemas/Tarjeta'
+      responses:
+        '200':
+          description: Tarjeta valida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/data'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  '/tarjetas/{id}/ingreso':
+    post:
+      tags:
+        - tarjetas
+      summary: Realiza un ingreso en una cuenta asociada a una tarjeta
+      operationId: realizarIngreso
+      description: |
+        Pasando el id de una tarjeta y algunos datos extra en el body se realiza el ingreso.
+      parameters:
+        - name: id
+          in: path
+          description: id de la tarjeta
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Ingreso:
+                  example: 10
+                  description: Cantidad de dinero a ingresar
+                  type: integer
+                  minimum: 10
+                  multipleOf: 10
+                Tarjeta:
+                  $ref: '#/components/schemas/Tarjeta'
+      responses:
+        '200':
+          description: Operación realizada con exito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/data'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  '/tarjetas/{id}/compra':
+    post:
+      tags:
+        - tarjetas
+      summary: Realiza una compra con una tarjeta
+      operationId: realizarCompra
+      description: |
+        Pasando el id de una tarjeta y algunos datos extra en el body se realiza la compra.
+      parameters:
+        - name: id
+          in: path
+          description: id de la tarjeta
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Cantidad:
+                  example: 0.05
+                  description: Cantidad de dinero a gastar
+                  type: number
+                  format: float
+                  minimum: 0.05
+                Tarjeta:
+                  $ref: '#/components/schemas/Tarjeta'
+      responses:
+        '200':
+          description: Operación realizada con exito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/data'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  '/tarjetas/{id}/saldo':
+    post:
+      tags:
+        - tarjetas
+      summary: Consultar saldo disponible.
+      operationId: consultarSaldo
+      description: |
+        Pasando el id de una tarjeta y algunos datos extra en el body se consulta el saldo.
+      parameters:
+        - name: id
+          in: path
+          description: id de la tarjeta
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Tarjeta:
+                  $ref: '#/components/schemas/Tarjeta'
+      responses:
+        '200':
+          description: Operación realizada con exito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/data'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  '/tarjetas/{id}/transferencia':
+    post:
+      tags:
+        - tarjetas
+      summary: Realiza una transferencia con la tarjeta.
+      operationId: realizarTransferencia
+      description: |
+        Pasando el id de una tarjeta y algunos datos extra en el body se realiza la transferencia.
+      parameters:
+        - name: id
+          in: path
+          description: id de la tarjeta
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Cantidad:
+                  example: 0.05
+                  description: Cantidad de dinero a transferir
+                  type: number
+                  format: float
+                  minimum: 0.05
+                Destino:
+                  example: id_destino
+                  description: ID de la cuenta a la que quieres transferir
+                  type: string
+                Origen:
+                  $ref: '#/components/schemas/Tarjeta'
+      responses:
+        '200':
+          description: Operación realizada con exito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/data'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  '/tarjetas/{id}/extraer':
+    post:
+      tags:
+        - tarjetas
+      summary: Extraer efectivo
+      operationId: extraerEfectivo
+      description: |
+        Pasando el id de una tarjeta y algunos datos extra en el body, se extrae efectivo.
+      parameters:
+        - name: id
+          in: path
+          description: id de la tarjeta
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Cantidad:
+                  example: 10
+                  description: Cantidad de dinero a extraer
+                  type: integer
+                  minimum: 10
+                Tarjeta:
+                  $ref: '#/components/schemas/Tarjeta'
+      responses:
+        '200':
+          description: Operación realizada con exito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/data'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+##########################################
+##### ESQUEMAS PETICIONES/RESPUESTAS #####
+##########################################
+components:
+  responses:
+    BadRequest:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: No se ha encontrado.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Tarjeta:
+      type: object
+      properties:
+        id:
+          description: ID de la tarjeta
+          type: integer
+        fecha_validez:
+          type: string
+          description: Fecha de validez de la tarjeta
+          example: "2017-01-01"
+          format: date
+        password:
+          type: integer
+          minLength: 4
+          maxLength: 4
+          description: Contraseña de la cuenta asociada a la tarjeta
+          format: password
+      required:
+        - id
+        - fecha_validez
+        - password
+    data:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: integer
+      required:
+        - code
+        - message
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: integer
+      required:
+        - code
+        - message

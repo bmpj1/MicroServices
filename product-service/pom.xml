@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -17,6 +17,11 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
@@ -55,6 +60,33 @@
 			<artifactId>mongodb</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+
+		<!-- API GENERATOR CONFIG -->
+		<dependency>
+			<groupId>org.openapitools</groupId>
+			<artifactId>jackson-databind-nullable</artifactId>
+			<version>0.2.6</version>
+		</dependency>
+		<dependency>
+			<!-- Swagger-UI: http://localhost:9191/swagger-ui o http://localhost:9191/swagger-ui/index.html#/-->
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/jakarta.platform/jakarta.jakartaee-api -->
+		<dependency>
+			<groupId>jakarta.platform</groupId>
+			<artifactId>jakarta.jakartaee-api</artifactId>
+			<version>11.0.0-M1</version>
+			<scope>provided</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -73,5 +105,77 @@
 			</plugin>
 		</plugins>
 	</build>
+
+
+	<profiles>
+		<profile>
+			<id>default-profile</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<skipTests>false</skipTests>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>generate-sources-profile</id>
+			<properties>
+				<skipTests>true</skipTests>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.openapitools</groupId>
+						<artifactId>openapi-generator-maven-plugin</artifactId>
+						<version>6.1.0</version>
+						<executions>
+							<execution>
+								<id>generate-sources</id>
+								<goals>
+									<goal>generate</goal>
+								</goals>
+								<configuration>
+									<inputSpec>${project.basedir}/src/main/resources/openapi/product-api.yaml</inputSpec>
+									<generatorName>spring</generatorName>
+									<library>spring-boot</library>
+
+									<modelNameSuffix>Model</modelNameSuffix>
+									<generateApis>true</generateApis>
+									<generateApiTests>false</generateApiTests>
+									<generateApiDocumentation>true</generateApiDocumentation>
+									<generateModelTests>false</generateModelTests>
+									<generateModelDocumentation>true</generateModelDocumentation>
+									<generateSupportingFiles>true</generateSupportingFiles>
+
+									<configOptions>
+										<interfaceOnly>true</interfaceOnly>
+										<useBeanValidation>true</useBeanValidation>
+										<performBeanValidation>true</performBeanValidation>
+										<modelPackage>com.micro.productservice.model</modelPackage>
+										<apiPackage>com.micro.productservice.controller</apiPackage>
+										<sourceFolder>src/openapi/java</sourceFolder>
+										<configPackage>com.micro.productservice.config</configPackage>
+										<serializableModel>true</serializableModel>
+										<!-- Habilita las anotaciones de Lombok
+										<lombokAnnotations>true</lombokAnnotations>
+										<additionalModelTypeAnnotations>@lombok.Data @lombok.NoArgsConstructor @lombok.AllArgsConstructor</additionalModelTypeAnnotations>  -->
+										<!-- to have jakarta.* imports with the following configOpts -->
+										<oas3>true</oas3>
+										<useSpringController>true</useSpringController>
+										<!-- javax.* to jakarta.* -->
+										<useSpringBoot3>true</useSpringBoot3>
+										<useSpringfox>false</useSpringfox>
+									</configOptions>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+	</profiles>
+
 
 </project>
