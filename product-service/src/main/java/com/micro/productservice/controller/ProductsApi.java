@@ -312,4 +312,43 @@ public interface ProductsApi {
 
     }
 
+    @Operation(
+            operationId = "searchProducts",
+            summary = "Search products by query.",
+            tags = { "products" },
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Products fetched.", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = ProductModel.class))
+                    }),
+                    @ApiResponse(responseCode = "400", description = "Bad Request.", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorModel.class))
+                    }),
+                    @ApiResponse(responseCode = "404", description = "Not Found.", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorModel.class))
+                    }),
+                    @ApiResponse(responseCode = "200", description = "Unexpected error", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorModel.class))
+                    })
+            }
+    )
+    @RequestMapping(
+            method = RequestMethod.GET,
+            value = "/products/search",
+            produces = { "application/json" }
+    )
+    default ResponseEntity<List<ProductModel>> searchProducts(
+            @NotNull @Parameter(name = "query", description = "Query to search.", required = true) @Valid @RequestParam(value = "query", required = true) String query
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"price\" : 6, \"name\" : \"name\", \"description\" : \"description\", \"id\" : 0, \"brand\" : \"brand\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 }

@@ -61,4 +61,11 @@ public class ProductsController implements ProductsApi {
     response.setProduct(updatedProduct);
     return ResponseEntity.ok(response);
   }
+
+  @Override
+    public ResponseEntity<List<ProductModel>> searchProducts(String query) {
+        // Implementar la lógica para buscar productos por una consulta
+        List<ProductModel> products = productService.searchProducts(query);
+        return ResponseEntity.ok(products);
+    }
 }

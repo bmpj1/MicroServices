@@ -87,6 +87,25 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- Dependencia de JUnit Jupiter (JUnit 5) para pruebas unitarias -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.9.2</version> <!-- Usa la última versión disponible -->
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.9.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<version>5.2.0</version> <!-- Asegúrate de usar la versión más reciente -->
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -102,6 +121,40 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+
+			<!-- JaCoCo plugin -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.7</version> <!-- Usa la última versión disponible -->
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>post-unit-test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<!-- Configuración para que JaCoCo pueda generar los reportes después de las pruebas unitarias -->
+							<dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
+							<outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
@@ -140,7 +193,7 @@
 									<generatorName>spring</generatorName>
 									<library>spring-boot</library>
 
-									<modelNameSuffix>Model</modelNameSuffix>
+									<modelNameSuffix>Dto</modelNameSuffix>
 									<generateApis>true</generateApis>
 									<generateApiTests>false</generateApiTests>
 									<generateApiDocumentation>true</generateApiDocumentation>
