@@ -63,9 +63,9 @@ public class ProductsController implements ProductsApi {
   }
 
   @Override
-    public ResponseEntity<List<ProductModel>> searchProducts(String query) {
-        // Implementar la lógica para buscar productos por una consulta
-        List<ProductModel> products = productService.searchProducts(query);
-        return ResponseEntity.ok(products);
-    }
+  public ResponseEntity<List<ProductModel>> searchProducts(String query) {
+      // Implementar la lógica para buscar productos por una consulta
+      List<ProductModel> products = productService.searchProducts(query);
+      return ResponseEntity.ok(products);
+  }
 }

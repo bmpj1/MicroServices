@@ -5,6 +5,7 @@ import com.micro.productservice.model.ProductModel;
 
 import java.util.List;
 
+
 public interface ProductService {
   ProductModel createProduct(ProductModel productModel);
   void deleteProductById(Long id);

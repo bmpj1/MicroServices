@@ -48,7 +48,7 @@ class ProductFacadeTest {
     return product;
   }
 
-  //region GetAllProducts
+  // region GetAllProducts
   @Test
   void getAllProductsShouldReturnProducts() {
     // GIVEN The mock response for all products.
@@ -119,7 +119,7 @@ class ProductFacadeTest {
     // MOCKED METHOD CALL VERIFY The mocked method was called once with the correct parameters.
     verify(restTemplate).getForObject(anyString(), eq(ExternalProductResponse.class), anyString());
   }
-  //endregion GetAllProducts
+  // endregion GetAllProducts
 
   //region GetProductById
   @Test
