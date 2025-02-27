@@ -57,3 +57,6 @@ The `repository` package contains interfaces that extend the `MongoRepository` i
 
 ### `service`
 The `service` package contains service classes that handle the business logic of the application. Here is where the runtime exceptions are thrown. This is done due to the separation of concerns principle and to keep the code clean.
+
+### `fachade`
+The ProductFacade class acts as an intermediary to retrieve product data from an external API (dummyjson.com) and convert it into the internal ProductModel format. It provides methods for fetching all products, retrieving a product by ID, and searching for products using a search query.
