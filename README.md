@@ -14,8 +14,15 @@ In this README, we'll explore the important concepts and the structure of spring
 - `Java 17.0.9:` The programming language for backend development.
 - `Maven 3.9.0:` A build tool for managing Java dependencies.
 - `Spring Boot 3.1.5:` Provides project structure management for your backend.
+- `Swagger:` For create a contract with the front and generate the API endpoints with documentation.
+- `Mockito:` For unit testing.
+- `Jacoco:` For coverage testing.
 - `Postman:` Used for API testing.
 - `Docker:`
+
+### Commands:
+- ```mvn clean verify```  : For test coverage with jacoco.
+- ```
 
 ## Project Structure
 
