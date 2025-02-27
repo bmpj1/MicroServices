@@ -32,7 +32,7 @@ In this README, we'll explore the important concepts and the structure of spring
 
 #### Others
 - `Postman:` Used for API testing.
-- `Docker:`
+- `Docker:` For building, deploying, and running applications in containers.
 
 ### Commands:
 - ```mvn clean```  : Cleans the project by deleting the target directory.
